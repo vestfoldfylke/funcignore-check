@@ -1,10 +1,9 @@
 import { execSync } from "node:child_process";
-import { type Dirent, appendFileSync, cpSync, existsSync, readdirSync, readFileSync, writeFileSync, rmSync } from "node:fs";
+import { appendFileSync, cpSync, type Dirent, existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { basename, join, relative, sep } from "node:path";
 import ignore, { type Ignore } from "ignore";
 
-const getRelativePathByDirent = (entry: Dirent, root: string) =>
-  getRelativePathByString(join(entry.parentPath, entry.name), root);
+const getRelativePathByDirent = (entry: Dirent, root: string) => getRelativePathByString(join(entry.parentPath, entry.name), root);
 
 const getRelativePathByString = (source: string, root: string) =>
   // ignore expects a path with "/" as separator, so the split is needed to support Windows
@@ -25,10 +24,10 @@ if (!existsSync(funcignorePath)) {
 }
 console.log(`Doing .funcignore check for service at path: ${servicePath}`);
 
-const showRules: boolean = process.env.SHOW_RULES && process.env.SHOW_RULES.trim().toLowerCase() === "true" || false;
-const showOutputInConsole: boolean = process.env.SHOW_OUTPUT_IN_CONSOLE && process.env.SHOW_OUTPUT_IN_CONSOLE.trim().toLowerCase() === "true" || false;
-const showOutputInFolder: boolean = process.env.SHOW_OUTPUT_IN_FOLDER && process.env.SHOW_OUTPUT_IN_FOLDER.trim().toLowerCase() === "true" || false;
-const funcignoreOutputFolder: string = showOutputInFolder && join(projectDirectory, `funcignore-output-${serviceName}`) || "";
+const showRules: boolean = (process.env.SHOW_RULES && process.env.SHOW_RULES.trim().toLowerCase() === "true") || false;
+const showOutputInConsole: boolean = (process.env.SHOW_OUTPUT_IN_CONSOLE && process.env.SHOW_OUTPUT_IN_CONSOLE.trim().toLowerCase() === "true") || false;
+const showOutputInFolder: boolean = (process.env.SHOW_OUTPUT_IN_FOLDER && process.env.SHOW_OUTPUT_IN_FOLDER.trim().toLowerCase() === "true") || false;
+const funcignoreOutputFolder: string = (showOutputInFolder && join(projectDirectory, `funcignore-output-${serviceName}`)) || "";
 if (!showOutputInConsole && !showOutputInFolder) {
   throw new Error("One or both of SHOW_OUTPUT_IN_CONSOLE and SHOW_OUTPUT_IN_FOLDER needs to be configured.");
 }
@@ -50,7 +49,7 @@ if (showOutputInConsole) {
 
   if (existsSync(consoleOutputFile)) {
     console.log(`\nRemoving ${consoleOutputFile}\n`);
-    rmSync(consoleOutputFile)
+    rmSync(consoleOutputFile);
   }
 
   const removed: string[] = readdirSync(servicePath, { recursive: true, withFileTypes: true })
@@ -61,7 +60,9 @@ if (showOutputInConsole) {
 
   writeFileSync(consoleOutputFile, JSON.stringify(removed, null, 2), "utf8");
 
-  removed.forEach((p: string) => console.log(p));
+  removed.forEach((p: string) => {
+    console.log(p);
+  });
 
   console.log(`\n${removed.length} files/folders would have been removed`);
 }
@@ -82,7 +83,7 @@ if (showOutputInFolder) {
 
   if (existsSync(folderOutputFile)) {
     console.log(`Removing ${folderOutputFile}`);
-    rmSync(folderOutputFile)
+    rmSync(folderOutputFile);
   }
 
   appendFileSync(folderOutputFile, "Files removed via cpSync\n-------------------------------------------------------------------------------------------------------------------------\n\n", "utf8");
@@ -109,7 +110,11 @@ if (showOutputInFolder) {
   execSync("npm ci --omit=dev --ignore-scripts --min-release-age=0");
   process.chdir(projectDirectory);
 
-  appendFileSync(folderOutputFile, "\nFiles removed via rmSync after npm i\n-------------------------------------------------------------------------------------------------------------------------\n\n", "utf8");
+  appendFileSync(
+    folderOutputFile,
+    "\nFiles removed via rmSync after npm i\n-------------------------------------------------------------------------------------------------------------------------\n\n",
+    "utf8"
+  );
 
   const outputFilesToRemove: string[] = readdirSync(funcignoreOutputFolder, { recursive: true, withFileTypes: true })
     .filter((entry: Dirent) => entry.isFile())
@@ -117,7 +122,7 @@ if (showOutputInFolder) {
     .filter((p: string) => ignoreEngine.ignores(p));
 
   outputFilesToRemove.forEach((file: string) => {
-    rmSync(join(funcignoreOutputFolder, file))
+    rmSync(join(funcignoreOutputFolder, file));
     appendFileSync(folderOutputFile, `${file}\n`, "utf8");
   });
 }
