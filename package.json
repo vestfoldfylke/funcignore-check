@@ -1,7 +1,7 @@
 {
   "name": "funcignore-check",
   "version": "1.0.0",
-  "description": "",
+  "description": "Tries to mimick the .funcignore functionality in GitHub Action azure/functions-action by reading the .funcignore file and show the output in console and/or in folder",
   "main": "index.ts",
   "scripts": {
     "clean": "rm -f *_console_output.json && rm -f *_folder_output.txt && rm -rf funcignore-output-*",
