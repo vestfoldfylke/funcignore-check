@@ -1,0 +1,9 @@
+.env
+node_modules
+
+# output folders from checks
+funcignore-output-*
+
+# output files from checks
+*_console_output.json
+*_folder_output.txt

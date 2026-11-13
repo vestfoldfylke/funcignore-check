@@ -1,0 +1,26 @@
+{
+  "name": "funcignore-check",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "clean": "rm -f *_console_output.json && rm -f *_folder_output.txt && rm -rf funcignore-output-*",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --env-file=.env --import tsx ./index.ts"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Rune Moskvil Lyngås",
+    "email": "rune.moskvil.lyngas@vestfoldfylke.no",
+    "url": "https://github.com/runely"
+  },
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15"
+  },
+  "dependencies": {
+    "ignore": "^7.0.14"
+  }
+}
