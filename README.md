@@ -24,7 +24,7 @@ Will print out in the console the content of the `.funcignore` file
 
 ### SHOW_OUTPUT_IN_CONSOLE
 
-When set to `true` it will print out in the console which files would have been ignored. It does also create the log file `%repo-name-from-service-given-in-FULL_PATH_TO_SERVICE%_console_output.json` which contains which files would have been ignored.
+When set to `true` it will print out in the console which files would have been ignored. It does also create the log file `%repo-name-from-service-given-in-FULL_PATH_TO_SERVICE%_console_output.json` that contains which files would have been ignored.
 
 ### SHOW_OUTPUT_IN_FOLDER
 
@@ -42,7 +42,7 @@ Make sure you have set up the `.env` correctly, then run `npm run start`
 
 ## Clear all output from checks
 
-> !IMPORTANT
+> [!IMPORTANT]
 > This command only works on Mac and Linux
 
 To remove all the output folders and log files created by checks, run `npm run clear`
